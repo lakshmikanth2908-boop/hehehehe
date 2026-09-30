@@ -2,488 +2,543 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Special Surprise Gift for You! 🎁</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Special Surprise For You! 🎁</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Canvas Confetti for celebration effects -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-  <!-- Google Fonts: Outfit & Caveat -->
+  <!-- Canvas Confetti for celebratory burst -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            outfit: ['Outfit', 'sans-serif'],
-            handwriting: ['Caveat', 'cursive'],
-          },
-        },
-      },
-    };
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  
   <style>
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      background: radial-gradient(circle at 50% 20%, #2e0854, #120424, #080112);
+      min-height: 100vh;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Floating ambient particles background */
-    @keyframes floatParticle {
-      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.35; }
-      50% { transform: translateY(-28px) rotate(180deg); opacity: 0.8; }
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
     }
 
-    .ambient-sparkle {
-      animation: floatParticle 6s ease-in-out infinite;
+    /* Ambient floating glowing orbs */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      pointer-events: none;
+      animation: floatSlow 8s ease-in-out infinite alternate;
     }
 
-    /* Gentle floating/hover for the unopened gift */
-    @keyframes floatGift {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(1deg); }
+    @keyframes floatSlow {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-25px) scale(1.1); }
     }
 
-    .gift-idle-float {
-      animation: floatGift 3.6s ease-in-out infinite;
-    }
-
-    /* Subtle pulse animation for instructional badge */
-    @keyframes gentlePulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4); }
-      50% { transform: scale(1.04); box-shadow: 0 0 35px rgba(236, 72, 153, 0.7); }
-    }
-
-    .pulse-glow {
-      animation: gentlePulse 2s ease-in-out infinite;
-    }
-
-    /* 3D Perspective Gift Container */
-    .gift-scene {
+    /* 3D Gift Box Construction */
+    .gift-stage {
       perspective: 1000px;
     }
 
-    .box-container {
+    .gift-container {
+      position: relative;
+      width: 190px;
+      height: 190px;
       transform-style: preserve-3d;
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
     }
 
-    .box-container:hover {
-      transform: scale(1.05) rotateX(4deg);
-    }
-
-    /* Lid opening animation */
-    @keyframes lidFlyOff {
-      0% {
-        transform: translateY(0) rotate(0deg) scale(1);
-        opacity: 1;
-      }
-      40% {
-        transform: translateY(-80px) rotate(-18deg) scale(1.1);
-      }
-      100% {
-        transform: translateY(-260px) rotate(45deg) scale(0.65);
-        opacity: 0;
+    @media (min-width: 640px) {
+      .gift-container {
+        width: 230px;
+        height: 230px;
       }
     }
 
-    .lid-unwrapping {
-      animation: lidFlyOff 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+    /* Gentle idling hover effect */
+    .gift-container.idle {
+      animation: gentleFloat 3.5s ease-in-out infinite;
     }
 
-    /* Ribbon untying animation */
-    @keyframes ribbonUntie {
-      0% { transform: scale(1) rotate(0); opacity: 1; }
-      50% { transform: scale(1.3) rotate(25deg); opacity: 0.8; }
-      100% { transform: scale(2) rotate(60deg); opacity: 0; }
+    @keyframes gentleFloat {
+      0%, 100% {
+        transform: translateY(0) rotateX(10deg) rotateY(-12deg);
+      }
+      50% {
+        transform: translateY(-16px) rotateX(14deg) rotateY(12deg);
+      }
     }
 
-    .ribbon-untie {
-      animation: ribbonUntie 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+    /* Box Base and Lid */
+    .box-body {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 78%;
+      background: linear-gradient(135deg, #e11d48, #be123c, #881337);
+      border-radius: 18px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                  0 0 35px rgba(225, 29, 72, 0.4),
+                  inset 0 2px 4px rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* Box body collapse/dissolve */
-    @keyframes boxDissolve {
-      0% { transform: scale(1); opacity: 1; }
-      40% { transform: scale(1.1); }
-      100% { transform: scale(0.4) translateY(60px); opacity: 0; }
+    /* Golden ribbons */
+    .box-ribbon-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      background: linear-gradient(90deg, #f59e0b, #fef08a 45%, #eab308 60%, #b45309);
+      box-shadow: 0 0 12px rgba(253, 224, 71, 0.4);
     }
 
-    .box-dissolve {
-      animation: boxDissolve 0.8s ease-in forwards !important;
+    .box-ribbon-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      height: 44px;
+      background: linear-gradient(180deg, #f59e0b, #fef08a 45%, #eab308 60%, #b45309);
+      box-shadow: 0 0 12px rgba(253, 224, 71, 0.4);
     }
 
-    /* Card glow & shine ribbon gradient */
-    .gold-gradient {
-      background: linear-gradient(135deg, #FFE082 0%, #FFB300 50%, #FF8F00 100%);
+    /* Box Lid */
+    .box-lid {
+      position: absolute;
+      top: 4px;
+      left: -6%;
+      width: 112%;
+      height: 38px;
+      background: linear-gradient(135deg, #f43f5e, #e11d48, #9f1239);
+      border-radius: 14px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4),
+                  inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      z-index: 10;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.7s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .gold-shine {
-      background: linear-gradient(90deg, #FDE68A 0%, #F59E0B 50%, #FDE68A 100%);
+    .box-lid .box-ribbon-v {
+      width: 48px;
     }
 
-    .box-surface {
-      background: linear-gradient(145deg, #f43f5e 0%, #e11d48 50%, #be123c 100%);
+    /* Bow on top */
+    .bow-wrap {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 12;
+      transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s;
     }
 
-    .box-lid-surface {
-      background: linear-gradient(145deg, #fb7185 0%, #f43f5e 50%, #e11d48 100%);
+    .bow-knot {
+      width: 32px;
+      height: 32px;
+      background: radial-gradient(circle at 35% 35%, #fef08a, #eab308, #b45309);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bow-loop-left, .bow-loop-right {
+      position: absolute;
+      top: -6px;
+      width: 42px;
+      height: 32px;
+      border: 7px solid #fbbf24;
+      background: radial-gradient(circle at 40% 40%, rgba(254, 240, 138, 0.8), rgba(202, 138, 4, 0.9));
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+    }
+
+    .bow-loop-left {
+      left: -28px;
+      border-radius: 50% 15% 15% 50%;
+      transform: rotate(-22deg);
+    }
+
+    .bow-loop-right {
+      right: -28px;
+      border-radius: 15% 50% 50% 15%;
+      transform: rotate(22deg);
+    }
+
+    /* Opening sequence animation classes */
+    .gift-container.opened .box-lid {
+      transform: translateY(-130px) rotateX(110deg) rotateZ(-18deg) scale(0.9);
+      opacity: 0;
+    }
+
+    .gift-container.opened .bow-wrap {
+      transform: translateX(-50%) translateY(-150px) scale(0.5) rotate(45deg);
+      opacity: 0;
+    }
+
+    .gift-container.opened .box-body {
+      transform: scale(0.9) translateY(40px);
+      opacity: 0;
+      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+    }
+
+    /* Background shimmer */
+    .shimmer-text {
+      background: linear-gradient(90deg, #fef08a 0%, #fff 50%, #fef08a 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
     }
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 min-h-screen text-slate-100 flex flex-col items-center justify-between p-4 overflow-x-hidden selection:bg-pink-500 selection:text-white">
+<body class="relative flex flex-col items-center justify-center min-h-screen text-white overflow-hidden p-4 sm:p-6">
 
-  <!-- Background decorative floating elements -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-    <div class="ambient-sparkle absolute top-12 left-10 text-pink-400 text-3xl">✨</div>
-    <div class="ambient-sparkle absolute top-1/4 right-16 text-amber-300 text-2xl" style="animation-delay: 1.5s;">🌟</div>
-    <div class="ambient-sparkle absolute bottom-20 left-1/5 text-purple-400 text-4xl" style="animation-delay: 2.3s;">✨</div>
-    <div class="ambient-sparkle absolute bottom-32 right-1/4 text-rose-300 text-3xl" style="animation-delay: 0.8s;">💖</div>
-    <div class="ambient-sparkle absolute top-2/3 left-12 text-yellow-200 text-xl" style="animation-delay: 3s;">⭐</div>
-    <!-- Soft background glowing orbs -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-purple-600/25 rounded-full blur-3xl"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px]"></div>
-  </div>
+  <!-- Glowing background elements -->
+  <div class="glow-orb w-80 h-80 -top-16 -left-16 bg-pink-600"></div>
+  <div class="glow-orb w-96 h-96 -bottom-20 -right-20 bg-amber-500"></div>
+  <div class="glow-orb w-72 h-72 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 opacity-30"></div>
 
-  <!-- Main Container -->
-  <header class="w-full max-w-4xl pt-6 pb-2 text-center relative z-10">
-    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-pink-200 text-xs sm:text-sm font-medium tracking-wide uppercase shadow-lg">
-      <span>🎁 Special Delivery</span>
-      <span class="w-1.5 h-1.5 rounded-full bg-pink-400 animate-ping"></span>
+  <!-- Sparkle Particle Canvas -->
+  <canvas id="sparkleCanvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- ================= MAIN GIFT HERO WRAPPER ================= -->
+  <main id="giftSection" class="relative z-10 flex flex-col items-center justify-center text-center transition-all duration-700 max-w-lg w-full">
+    
+    <!-- Header tags -->
+    <div class="mb-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-semibold tracking-wide text-amber-300 shadow-lg">
+      <span class="animate-pulse">✨</span> Surprise Waiting Inside
     </div>
-  </header>
 
-  <!-- Content Workspace: Gift Screen OR Reveal Screen -->
-  <main class="w-full max-w-3xl flex-1 flex flex-col items-center justify-center relative z-10 my-auto py-6">
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight font-serif-title text-white mb-2 leading-tight">
+      Someone Sent You A <span class="shimmer-text">Gift</span>!
+    </h1>
 
-    <!-- SCREEN 1: UNWRAPPING INTERFACE -->
-    <section id="giftScreen" class="w-full flex flex-col items-center text-center transition-all duration-700 ease-out">
-      
-      <div class="mb-6 space-y-2">
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-rose-200 via-pink-100 to-amber-200 bg-clip-text text-transparent drop-shadow-sm">
-          Someone Sent You a Gift!
-        </h1>
-        <p class="font-handwriting text-2xl sm:text-3xl text-pink-300 font-bold">
-          There's a special musical surprise tucked inside ✨
-        </p>
-      </div>
+    <p class="text-white/70 text-sm sm:text-base max-w-sm mb-8 px-2 font-normal leading-relaxed">
+      Turn up your volume and tap the gift box to reveal your celebration surprise!
+    </p>
 
-      <!-- 3D Gift Box Interactive Area -->
-      <div class="gift-scene my-6 cursor-pointer group" id="giftButton" role="button" tabindex="0" aria-label="Open gift box">
-        <div id="giftBoxContainer" class="box-container gift-idle-float relative w-56 h-56 sm:w-64 sm:h-64 flex flex-col items-center justify-center">
-          
-          <!-- Shadow Base -->
-          <div class="absolute -bottom-8 w-44 sm:w-52 h-6 bg-black/40 rounded-full blur-md transition-all duration-300 group-hover:scale-110"></div>
-
-          <!-- Gift Bow (Top) -->
-          <div id="giftBow" class="relative z-30 -mb-5 flex justify-center items-center drop-shadow-xl transition-transform duration-300 group-hover:scale-110">
-            <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full gold-gradient shadow-md border-2 border-amber-200/50 flex items-center justify-center relative">
-              <span class="text-xs text-amber-900 opacity-60">✦</span>
-              <!-- Left Loop -->
-              <div class="absolute -left-7 -top-2 w-10 h-7 rounded-full border-4 border-amber-300 gold-gradient -rotate-45 shadow-sm transform origin-right"></div>
-              <!-- Right Loop -->
-              <div class="absolute -right-7 -top-2 w-10 h-7 rounded-full border-4 border-amber-300 gold-gradient rotate-45 shadow-sm transform origin-left"></div>
-              <!-- Ribbon tails -->
-              <div class="absolute -bottom-5 -left-3 w-3 h-8 gold-gradient rotate-12 rounded-b shadow"></div>
-              <div class="absolute -bottom-5 -right-3 w-3 h-8 gold-gradient -rotate-12 rounded-b shadow"></div>
-            </div>
-          </div>
-
-          <!-- Gift Lid -->
-          <div id="giftLid" class="relative z-20 w-52 sm:w-60 h-14 sm:h-16 box-lid-surface rounded-2xl shadow-2xl border-t-2 border-rose-300/40 flex items-center justify-center overflow-hidden">
-            <!-- Horizontal Ribbon Band -->
-            <div class="absolute inset-x-0 h-4 sm:h-5 gold-shine shadow-inner border-y border-amber-200/60"></div>
-            <!-- Vertical Ribbon Band -->
-            <div class="absolute inset-y-0 w-8 sm:w-10 gold-shine shadow-md border-x border-amber-200/60"></div>
-            <!-- Lid highlights -->
-            <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
-          </div>
-
-          <!-- Gift Box Body -->
-          <div id="giftBody" class="relative z-10 w-48 sm:w-56 h-36 sm:h-44 box-surface rounded-b-2xl shadow-[0_20px_35px_rgba(0,0,0,0.5)] border-b border-rose-900/60 flex items-center justify-center overflow-hidden -mt-1">
-            <!-- Vertical Ribbon -->
-            <div class="absolute inset-y-0 w-8 sm:w-10 gold-shine shadow-md border-x border-amber-200/60 flex items-center justify-center">
-              <div class="w-0.5 h-full bg-amber-100/50"></div>
-            </div>
-            <!-- Subtle interior glow that leaks during unwrap -->
-            <div id="boxInnerGlow" class="absolute inset-0 bg-amber-200 opacity-0 transition-opacity duration-300"></div>
-            <!-- Box shine line -->
-            <div class="absolute -inset-full bg-gradient-to-tr from-transparent via-white/10 to-transparent transform rotate-45 pointer-events-none"></div>
-          </div>
-
+    <!-- Interactive Gift Box Stage -->
+    <div class="gift-stage my-2 p-4">
+      <div id="giftBox" class="gift-container idle" role="button" aria-label="Open your surprise gift" tabindex="0">
+        
+        <!-- Bow on top -->
+        <div class="bow-wrap">
+          <div class="bow-loop-left"></div>
+          <div class="bow-loop-right"></div>
+          <div class="bow-knot"></div>
         </div>
-      </div>
 
-      <!-- Action Button / Cue -->
-      <div class="mt-6 flex flex-col items-center">
-        <button id="unwrapBtn" class="pulse-glow px-8 py-3.5 sm:px-10 sm:py-4 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:from-pink-600 hover:to-amber-600 text-white font-bold text-lg sm:text-xl shadow-xl hover:shadow-pink-500/40 active:scale-95 transition-all flex items-center gap-3">
-          <span>Tap to Unwrap Your Surprise!</span>
-          <span class="text-2xl animate-bounce">🎁</span>
-        </button>
-        <p class="mt-3 text-sm text-slate-400">Click the box or tap the button above</p>
-      </div>
-
-    </section>
-
-    <!-- SCREEN 2: SURPRISE REVEAL & EMBEDDED YOUTUBE VIDEO -->
-    <section id="revealScreen" class="hidden w-full flex flex-col items-center text-center opacity-0 scale-95 transition-all duration-700 ease-out">
-      
-      <!-- Celebration Header -->
-      <div class="space-y-2 mb-6">
-        <div class="inline-block animate-bounce mb-1">
-          <span class="text-4xl sm:text-5xl">🎉 🥳 🎊</span>
+        <!-- Lid -->
+        <div class="box-lid">
+          <div class="box-ribbon-v"></div>
         </div>
-        <h2 class="text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-amber-200 via-pink-200 to-rose-300 bg-clip-text text-transparent">
-          Surprise For You!
-        </h2>
-        <p class="text-base sm:text-lg text-slate-300 max-w-lg mx-auto">
-          Here is your special present! Turn your sound up and enjoy the music. 🎶
-        </p>
-      </div>
 
-      <!-- Video Player Frame with Glassmorphism Card -->
-      <div class="w-full max-w-2xl bg-white/10 backdrop-blur-xl border border-white/20 p-2 sm:p-4 rounded-3xl shadow-[0_0_50px_rgba(236,72,153,0.3)] transform transition-transform">
-        <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-inner">
-          <iframe 
-            id="surpriseIframe" 
-            class="w-full h-full"
-            src="" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen>
-          </iframe>
+        <!-- Main Box Body -->
+        <div class="box-body">
+          <div class="box-ribbon-v"></div>
+          <div class="box-ribbon-h"></div>
         </div>
+
       </div>
+    </div>
 
-      <!-- Action Button Group -->
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-        <!-- Direct YouTube Link Button -->
-        <a 
-          href="https://youtu.be/6-8E4Nirh9s?si=-gAopX2hR6nUfwXx" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="px-6 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm sm:text-base flex items-center gap-2 shadow-lg hover:shadow-red-600/30 transition-all hover:-translate-y-0.5"
-        >
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-          <span>Watch on YouTube</span>
-        </a>
+    <!-- Action Button -->
+    <div class="mt-8 flex flex-col items-center gap-3">
+      <button id="openGiftBtn" class="group relative px-8 py-3.5 rounded-full text-base sm:text-lg font-bold text-gray-900 bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 hover:from-amber-200 hover:to-yellow-400 shadow-[0_0_30px_rgba(251,191,36,0.5)] hover:shadow-[0_0_40px_rgba(251,191,36,0.8)] active:scale-95 transition-all duration-200 flex items-center gap-2.5">
+        <span>Tap to Open Your Gift</span>
+        <span class="text-xl group-hover:rotate-12 transition-transform duration-200">🎁</span>
+      </button>
 
-        <!-- Re-wrap / Replay Experience Button -->
-        <button 
-          id="rewrapBtn" 
-          class="px-6 py-3 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-semibold text-sm sm:text-base flex items-center gap-2 shadow-lg transition-all hover:-translate-y-0.5"
-        >
-          <span>Wrap It Back Up 🎁</span>
-        </button>
-      </div>
-
-    </section>
+      <p class="text-xs text-white/50 tracking-wide">Works seamlessly on mobile & laptop</p>
+    </div>
 
   </main>
 
-  <!-- Footer Info -->
-  <footer class="w-full text-center py-4 text-xs text-slate-500 relative z-10">
-    <p>Crafted with joy • An interactive gift unwrapping experience</p>
-  </footer>
+  <!-- ================= REVEALED VIDEO MODAL / CONTAINER ================= -->
+  <section id="videoRevealSection" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-all duration-700 transform scale-95" aria-modal="true" role="dialog">
+    
+    <!-- Top Bar Controls -->
+    <div class="w-full max-w-4xl flex items-center justify-between mb-3 text-white px-2">
+      <div class="flex items-center gap-2">
+        <span class="flex h-3 w-3 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
+        </span>
+        <span class="text-xs sm:text-sm font-semibold tracking-wider text-rose-300 uppercase">Now Playing Your Surprise</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Replay button -->
+        <button id="replayBtn" title="Replay from start" class="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium flex items-center gap-1.5 transition active:scale-95">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span>Replay</span>
+        </button>
+
+        <!-- Close / Back to Gift button -->
+        <button id="closeVideoBtn" title="Back to gift" class="p-2 rounded-lg bg-white/10 hover:bg-red-500/30 hover:border-red-400 border border-white/20 text-white transition active:scale-95">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Responsive Video Player Frame (16:9 Aspect Ratio) -->
+    <div class="w-full max-w-4xl relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black aspect-video flex items-center justify-center">
+      <!-- YouTube IFrame API Target Element -->
+      <div id="youtubePlayer" class="w-full h-full"></div>
+    </div>
+
+    <!-- Bottom encouragement -->
+    <p class="mt-4 text-xs sm:text-sm text-white/60 text-center font-medium">
+      Hope you loved this surprise! Enjoy the music and moment ✨
+    </p>
+
+  </section>
 
   <script>
-    // YouTube Embed Link with autoplay enabled
-    const YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/6-8E4Nirh9s?autoplay=1&rel=0&enablejsapi=1";
+    /* Sparkle Ambient Particle Animation */
+    const canvas = document.getElementById('sparkleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-    // DOM Elements
-    const giftScreen = document.getElementById('giftScreen');
-    const revealScreen = document.getElementById('revealScreen');
-    const giftButton = document.getElementById('giftButton');
-    const unwrapBtn = document.getElementById('unwrapBtn');
-    const giftBow = document.getElementById('giftBow');
-    const giftLid = document.getElementById('giftLid');
-    const giftBody = document.getElementById('giftBody');
-    const giftBoxContainer = document.getElementById('giftBoxContainer');
-    const boxInnerGlow = document.getElementById('boxInnerGlow');
-    const surpriseIframe = document.getElementById('surpriseIframe');
-    const rewrapBtn = document.getElementById('rewrapBtn');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    let isUnwrapping = false;
-
-    // Web Audio Synthesizer for Festive Chimes & Unwrap Sounds
-    function playCelebrationSound() {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-
-        // Chime note frequencies (Arpeggio: C5, E5, G5, B5, C6)
-        const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
-        notes.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, ctx.currentTime + (idx * 0.08));
-
-          // Volume envelope
-          gain.gain.setValueAtTime(0, ctx.currentTime + (idx * 0.08));
-          gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + (idx * 0.08) + 0.02);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (idx * 0.08) + 0.6);
-
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-
-          osc.start(ctx.currentTime + (idx * 0.08));
-          osc.stop(ctx.currentTime + (idx * 0.08) + 0.65);
-        });
-
-        // Soft whoosh bass impact
-        const noiseOsc = ctx.createOscillator();
-        const noiseGain = ctx.createGain();
-        noiseOsc.type = 'sine';
-        noiseOsc.frequency.setValueAtTime(150, ctx.currentTime);
-        noiseOsc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.4);
-
-        noiseGain.gain.setValueAtTime(0.3, ctx.currentTime);
-        noiseGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
-
-        noiseOsc.connect(noiseGain);
-        noiseGain.connect(ctx.destination);
-
-        noiseOsc.start(ctx.currentTime);
-        noiseOsc.stop(ctx.currentTime + 0.5);
-      } catch (err) {
-        console.warn('Audio playback not permitted or unavailable:', err);
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.2 + 0.5;
+        this.alpha = Math.random() * 0.7 + 0.2;
+        this.speedX = (Math.random() - 0.5) * 0.35;
+        this.speedY = -Math.random() * 0.45 - 0.15;
+        this.color = Math.random() > 0.4 ? '#fbbf24' : '#ec4899';
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
+          this.reset();
+          this.y = canvas.height + 10;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
     }
 
-    // Fire Confetti Cannons
-    function triggerConfetti() {
-      if (typeof confetti !== 'function') return;
-
-      // Central burst
-      confetti({
-        particleCount: 80,
-        spread: 90,
-        origin: { y: 0.6 },
-        colors: ['#f43f5e', '#ec4899', '#f59e0b', '#3b82f6', '#10b981', '#a855f7']
-      });
-
-      // Left blast
-      setTimeout(() => {
-        confetti({
-          particleCount: 50,
-          angle: 60,
-          spread: 70,
-          origin: { x: 0.1, y: 0.7 },
-          colors: ['#fb7185', '#fcd34d', '#818cf8']
-        });
-      }, 150);
-
-      // Right blast
-      setTimeout(() => {
-        confetti({
-          particleCount: 50,
-          angle: 120,
-          spread: 70,
-          origin: { x: 0.9, y: 0.7 },
-          colors: ['#fb7185', '#fcd34d', '#818cf8']
-        });
-      }, 300);
+    const PARTICLE_COUNT = Math.min(65, Math.floor(window.innerWidth / 15));
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
     }
 
-    function unwrapGift() {
-      if (isUnwrapping) return;
-      isUnwrapping = true;
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
 
-      // Sound & tactile feedback
-      playCelebrationSound();
+    /* YouTube IFrame API Integration */
+    const VIDEO_ID = '6-8E4Nirh9s';
+    let ytPlayer = null;
+    let isPlayerReady = false;
 
-      // Stop gentle idle floating animation
-      giftBoxContainer.classList.remove('gift-idle-float');
+    // Load official YouTube IFrame Player API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      // Trigger unwrapping animation classes
-      giftBow.classList.add('ribbon-untie');
-      giftLid.classList.add('lid-unwrapping');
-      boxInnerGlow.classList.remove('opacity-0');
-      boxInnerGlow.classList.add('opacity-80');
+    // YouTube API callback once script loads
+    window.onYouTubeIframeAPIReady = function() {
+      ytPlayer = new YT.Player('youtubePlayer', {
+        height: '100%',
+        width: '100%',
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay: 0,
+          playsinline: 1,      // Essential for playing directly on iOS / Android browsers
+          controls: 1,         // Allows user full playback control
+          rel: 0,              // Minimize unrelated recommendations
+          modestbranding: 1,
+          enablejsapi: 1
+        },
+        events: {
+          onReady: onPlayerReady
+        }
+      });
+    };
 
-      // Blast celebratory confetti right when lid comes off
+    function onPlayerReady() {
+      isPlayerReady = true;
+    }
+
+    /* Elements */
+    const giftBox = document.getElementById('giftBox');
+    const openGiftBtn = document.getElementById('openGiftBtn');
+    const giftSection = document.getElementById('giftSection');
+    const videoSection = document.getElementById('videoRevealSection');
+    const replayBtn = document.getElementById('replayBtn');
+    const closeVideoBtn = document.getElementById('closeVideoBtn');
+
+    let isGiftOpened = false;
+
+    // Trigger explosive confetti celebration
+    function fireConfettiBurst() {
+      const count = 220;
+      const defaults = {
+        origin: { y: 0.65 },
+        zIndex: 9999
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+        colors: ['#f59e0b', '#ec4899', '#f43f5e']
+      });
+      fire(0.2, {
+        spread: 60,
+        colors: ['#3b82f6', '#10b981', '#fef08a']
+      });
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        colors: ['#ffffff', '#fbbf24']
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 45,
+      });
+    }
+
+    // Unbox logic triggered by direct user gesture (enables unmuted sound on mobile/laptop)
+    function openGift() {
+      if (isGiftOpened) return;
+      isGiftOpened = true;
+
+      // Stop gentle idling and start lid lift animation
+      giftBox.classList.remove('idle');
+      giftBox.classList.add('opened');
+
+      // Shoot festive confetti
+      fireConfettiBurst();
+
+      // Begin playback right inside the user tap event handler for autoplay compliance
+      if (isPlayerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        try {
+          ytPlayer.unMute();
+          ytPlayer.seekTo(0, true);
+          ytPlayer.playVideo();
+        } catch (err) {
+          console.log('Autoplay playback initiated');
+        }
+      }
+
+      // Smoothly hide gift intro and bring in the video overlay
       setTimeout(() => {
-        triggerConfetti();
-        giftBody.classList.add('box-dissolve');
-      }, 250);
-
-      // Smooth transition to Reveal Screen
-      setTimeout(() => {
-        // Fade out screen 1
-        giftScreen.classList.add('opacity-0', 'scale-90');
-
+        giftSection.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+        
         setTimeout(() => {
-          giftScreen.classList.add('hidden');
-          revealScreen.classList.remove('hidden');
+          giftSection.classList.add('hidden');
+          videoSection.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+          videoSection.classList.add('opacity-100', 'scale-100');
 
-          // Set iframe src to initiate video playback
-          surpriseIframe.src = YOUTUBE_EMBED_URL;
-
-          // Double confetti for video arrival
-          triggerConfetti();
-
-          // Fade in reveal screen
-          requestAnimationFrame(() => {
-            revealScreen.classList.remove('opacity-0', 'scale-95');
-            revealScreen.classList.add('opacity-100', 'scale-100');
-          });
+          // Ensure video continues playing if delayed load
+          if (isPlayerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            ytPlayer.playVideo();
+          }
         }, 400);
 
-      }, 850);
+      }, 700);
     }
 
-    // Reset back to wrapped state
-    function rewrapGift() {
-      // Clear video to stop playback sound
-      surpriseIframe.src = "";
+    // Attach click & keydown handlers
+    giftBox.addEventListener('click', openGift);
+    openGiftBtn.addEventListener('click', openGift);
 
-      revealScreen.classList.add('opacity-0', 'scale-95');
-
-      setTimeout(() => {
-        revealScreen.classList.add('hidden');
-        giftScreen.classList.remove('hidden');
-
-        // Reset all animation classes
-        giftBow.classList.remove('ribbon-untie');
-        giftLid.classList.remove('lid-unwrapping');
-        giftBody.classList.remove('box-dissolve');
-        boxInnerGlow.classList.add('opacity-0');
-        boxInnerGlow.classList.remove('opacity-80');
-        giftBoxContainer.classList.add('gift-idle-float');
-
-        // Restore screen 1 visibility
-        requestAnimationFrame(() => {
-          giftScreen.classList.remove('opacity-0', 'scale-90');
-          giftScreen.classList.add('opacity-100', 'scale-100');
-          isUnwrapping = false;
-        });
-      }, 400);
-    }
-
-    // Attach Event Listeners
-    giftButton.addEventListener('click', unwrapGift);
-    unwrapBtn.addEventListener('click', unwrapGift);
-    rewrapBtn.addEventListener('click', rewrapGift);
-
-    // Keyboard support for accessibility (Enter / Space bar)
-    giftButton.addEventListener('keydown', (e) => {
+    giftBox.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        unwrapGift();
+        openGift();
       }
+    });
+
+    // Replay button handler
+    replayBtn.addEventListener('click', () => {
+      if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+        ytPlayer.seekTo(0, true);
+        ytPlayer.playVideo();
+        fireConfettiBurst();
+      }
+    });
+
+    // Close video / Reset back to gift view
+    closeVideoBtn.addEventListener('click', () => {
+      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+        ytPlayer.pauseVideo();
+      }
+
+      videoSection.classList.remove('opacity-100', 'scale-100');
+      videoSection.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+
+      setTimeout(() => {
+        giftSection.classList.remove('hidden');
+        setTimeout(() => {
+          giftBox.classList.remove('opened');
+          giftBox.classList.add('idle');
+          giftSection.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+          isGiftOpened = false;
+        }, 50);
+      }, 400);
     });
   </script>
 </body>
